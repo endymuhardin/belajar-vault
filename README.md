@@ -271,7 +271,7 @@
 5. Gunakan `token` untuk membaca isi secret
 
     ```
-    vault kv get secret/aplikasi/belajar
+    VAULT_TOKEN="hvs.CAESILZwZ9W8KaCUKDQVEvdpskdEgGoit2bUn13xOXJ-tGj3Gh4KHGh2cy42OHdnNkh5TThlZjZFVmp0RzVyeFo1elg" vault kv get secret/aplikasi/belajar
     ```
 
     Outputnya seperti ini
