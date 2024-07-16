@@ -28,8 +28,7 @@
     Outputnya seperti ini
 
     ```
-    Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
-symbols:
+    Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
     + create
 
     Terraform will perform the following actions:
