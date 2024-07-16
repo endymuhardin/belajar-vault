@@ -195,6 +195,18 @@
     SPRING_DATASOURCE_USERNAME    belajar
     ```
 
+8. Apabila kita restart vault yang dijalankan dengan opsi `-dev`, datanya akan hilang semua. Untuk itu, kita perlu reset terraform supaya bisa melakukan `apply` lagi. Hapus file dan folder yang menyimpan state terraform
+
+    ```
+    rm -rf terraform.tfstate
+    ```
+    
+    Setelah itu kita bisa jalankan lagi terraform agar policy, role, dan secret terisi kembali
+
+    ```
+    terraform apply
+    ```
+
 ## Test Akses Approle ke Secret ##
 
 1. Generate `secret-id` dengan response-wrapper
