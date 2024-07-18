@@ -1,0 +1,21 @@
+services:
+
+  db-belajar:
+    image: postgres
+    environment:
+      - POSTGRES_DB=belajar-vault
+      - POSTGRES_USER=belajar
+      - POSTGRES_PASSWORD=belajar-vault-123
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db-belajar:/var/lib/postgresql/data
+  
+  vault:
+    image: hashicorp/vault
+    restart: always
+    command: [ 'vault', 'server', '-dev', '-dev-listen-address=0.0.0.0:8288' ]
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: 'root-token-for-dev-purpose-only'
+    ports:
+      - 8288:8288
