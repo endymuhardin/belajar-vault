@@ -1,3 +1,3 @@
-path "secret/data/aplikasi/belajar" {
+path "secret/data/aplikasi-belajar" {
   capabilities = ["read"]
 }
