@@ -326,3 +326,128 @@
     * 1 error occurred:
         * permission denied
     ```
+
+## Menjalankan Aplikasi Spring Boot ##
+
+Ada beberapa opsi authentication:
+
+* Static Token
+* Trusted Orchestrator / AppRole
+* Trusted Platform
+
+Penggunaan authentication model `token` tidak direkomendasikan, karena sulitnya mengamankan token.
+
+### AppRole Authentication ###
+
+Ada dua metode yang bisa dipilih:
+
+* Plaintext Secret Id
+* Wrapped Secret Id
+
+#### Metode Plaintext Secret Id ####
+
+1. Ambil `role-id` dari vault
+
+    ```
+    vault read auth/approle/role/belajar/role-id
+    ```
+
+    Outputnya seperti ini
+
+    ```
+    Key        Value
+    ---        -----
+    role_id    bcad7c7a-65c7-efc1-84d1-c69d257cc219
+    ```
+
+2. Ambil `secret-id` dari vault
+
+    ```
+    vault write -force auth/approle/role/belajar/secret-id
+    ```
+
+    Outputnya seperti ini
+
+    ```
+    Key                   Value
+    ---                   -----
+    secret_id             87af52b1-80ba-d36b-3620-d66f6d012278
+    secret_id_accessor    3a8160ee-c290-3fac-d137-57c31946bf71
+    secret_id_num_uses    0
+    secret_id_ttl         0s
+    ```
+
+3. Set `role-id` di `application.properties` atau environment variable
+
+    * application properties
+
+        ```
+        spring.cloud.vault.app-role.role-id=bcad7c7a-65c7-efc1-84d1-c69d257cc219
+        ```
+
+    * environment variable
+
+        ```
+        SPRING_CLOUD_VAULT_APPROLE_ROLEID='bcad7c7a-65c7-efc1-84d1-c69d257cc219'
+        ```
+
+4. Set `secret-id` di environment variable pada saat menjalankan aplikasi
+
+    ```
+    SPRING_CLOUD_VAULT_APPROLE_SECRETID='87af52b1-80ba-d36b-3620-d66f6d012278' mvn clean spring-boot:run
+    ```
+
+#### Metode Wrapped Secret Id ####
+
+1. Ambil `role-id` dari vault
+
+    ```
+    vault read auth/approle/role/belajar/role-id
+    ```
+
+    Outputnya seperti ini
+
+    ```
+    Key        Value
+    ---        -----
+    role_id    bcad7c7a-65c7-efc1-84d1-c69d257cc219
+    ```
+
+2. Ambil `secret-id` dari vault dalam format terbungkus (wrapped-response)
+
+    ```
+    vault write -wrap-ttl=60s -force auth/approle/role/belajar/secret-id
+    ```
+
+    Outputnya seperti ini
+
+    ```
+    Key                              Value
+    ---                              -----
+    wrapping_token:                  hvs.CAESIBapJpXJKSeYcU6vl29b8wMU9_8nkWrbTla9MB8ZOy_CGh4KHGh2cy5hWENGN1hPNXN1eDVDMUF5ZVdUME1wWDk
+    wrapping_accessor:               ZWZJmvO1sOknqmTLG72AuxM1
+    wrapping_token_ttl:              1m
+    wrapping_token_creation_time:    2024-07-19 03:10:03.636117344 +0000 UTC
+    wrapping_token_creation_path:    auth/approle/role/belajar/secret-id
+    wrapped_accessor:                318d284b-ff45-abbc-4a03-27f3d90b495f
+    ```
+
+3. Set `role-id` di `application.properties` atau environment variable
+
+    * application properties
+
+        ```
+        spring.cloud.vault.app-role.role-id=bcad7c7a-65c7-efc1-84d1-c69d257cc219
+        ```
+
+    * environment variable
+
+        ```
+        SPRING_CLOUD_VAULT_APPROLE_ROLEID='bcad7c7a-65c7-efc1-84d1-c69d257cc219'
+        ```
+
+4. Set `wrapping_token` di environment variable pada saat menjalankan aplikasi
+
+    ```
+    SPRING_CLOUD_VAULT_TOKEN='hvs.CAESIBapJpXJKSeYcU6vl29b8wMU9_8nkWrbTla9MB8ZOy_CGh4KHGh2cy5hWENGN1hPNXN1eDVDMUF5ZVdUME1wWDk' mvn clean spring-boot:run
+    ```
