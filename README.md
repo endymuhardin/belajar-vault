@@ -327,6 +327,61 @@
         * permission denied
     ```
 
+## Menjalankan Vault dengan Docker Compose ##
+
+1. Jalankan docker compose
+
+    ```
+    docker compose up
+    ```
+
+2. Buka terminal baru, cari tahu daftar container yang sedang berjalan
+
+    ```
+    docker ps -a
+    ```
+
+    Outputnya seperti ini
+
+    ```
+    CONTAINER ID   IMAGE             COMMAND                  CREATED       STATUS         PORTS                              NAMES
+    e284f2b9e394   postgres          "docker-entrypoint.s…"   4 hours ago   Up 7 seconds   0.0.0.0:5432->5432/tcp             belajar-vault-db-belajar-1
+    cacdedadab92   hashicorp/vault   "docker-entrypoint.s…"   4 hours ago   Up 8 seconds   8200/tcp, 0.0.0.0:8288->8288/tcp   belajar-vault-vault-1
+    ```
+
+    Container yang menjalankan Vault namanya adalah `belajar-vault-vault-1`
+
+3. Masuk ke container `belajar-vault-vault-1` dan jalankan shell `sh` di dalam container
+
+    ```
+    docker exec -it belajar-vault-vault-1 sh
+    ```
+
+4. Set environment variable agar bisa membaca dan menulis data di Vault
+
+    ```
+    export VAULT_ADDR='http://127.0.0.1:8288'
+    export VAULT_TOKEN='root-token-for-dev-purpose-only'
+    ```
+
+5. Ambil data `role-id`
+
+    ```
+    vault read auth/approle/role/belajar/role-id
+    ```
+
+6. Generate `secret-id`
+
+    ```
+    vault write -force auth/approle/role/belajar/secret-id
+    ```
+
+7. Generate `secret-id` yang di-wrap
+
+    ```
+    vault write -force -wrap-ttl=1m auth/approle/role/belajar/secret-id
+    ```
+
 ## Menjalankan Aplikasi Spring Boot ##
 
 Ada beberapa opsi authentication:
