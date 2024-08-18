@@ -10,7 +10,7 @@
 
     ```
     export VAULT_ADDR='http://127.0.0.1:8200'
-    export VAULT_TOKEN='root-token-for-dev-purpose-only'
+    export VAULT_TOKEN='root'
     ```
 
 3. Inisialisasi terraform
@@ -506,3 +506,49 @@ Ada dua metode yang bisa dipilih:
     ```
     SPRING_CLOUD_VAULT_TOKEN='hvs.CAESIBapJpXJKSeYcU6vl29b8wMU9_8nkWrbTla9MB8ZOy_CGh4KHGh2cy5hWENGN1hPNXN1eDVDMUF5ZVdUME1wWDk' mvn clean spring-boot:run
     ```
+
+## Menjalankan Vault di Kubernetes ##
+
+1. Pastikan kubernetes cluster sudah berjalan
+
+    ```
+    kubectl cluster-info
+    ```
+
+2. Instalasi Repo Vault di Helm local
+
+    ```
+    helm repo add hashicorp https://helm.releases.hashicorp.com
+    helm repo update
+    ```
+
+3. Deploy Vault di k8s local
+
+    ```
+    helm install vault hashicorp/vault \
+    --set "server.dev.enabled=true" \
+    --set "injector.enabled=false" \
+    --set "csi.enabled=true" \
+    --set='ui.enabled=true' 
+
+4. Cek instalasi Vault di helm
+
+    ```
+    helm list
+    ```
+
+    dan di kubernetes
+
+    ```
+    kubectl get all
+    ```
+
+5. Apabila menggunakan podman, kubernetes providernya adalah `kind`. Untuk itu, kita harus melakukan port-forwarding secara manual.
+
+    ```
+    kubectl port-forward service/vault-ui 8200:8200
+    ```
+
+6. UI Vault bisa dibrowse di `http://localhost:8200`
+
+7. Jalankan terraform script seperti langkah di atas.
