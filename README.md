@@ -552,3 +552,40 @@ Ada dua metode yang bisa dipilih:
 6. UI Vault bisa dibrowse di `http://localhost:8200`
 
 7. Jalankan terraform script seperti langkah di atas.
+
+## Docker Image untuk aplikasi Spring Boot ##
+
+1. Build image menggunakan `spring-boot-maven-plugin`
+
+    ```
+    mvn clean spring-boot:build-image
+    ```
+
+2. Push image ke docker hub
+
+    ```
+    docker push endymuhardin/belajar-vault
+    ```
+
+    atau menggunakan podman
+
+    ```
+    podman push endymuhardin/belajar-vault
+    ```
+
+3. Melihat daftar image di dockerhub
+
+    ```
+    curl -L -X GET \
+    -H "Accept: application/json" \
+    https://hub.docker.com/v2/repositories/endymuhardin/ | jq
+    ```
+
+4. Menghapus image
+
+    ```
+    curl -i -X DELETE \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer $DOCKERHUB_TOKEN" \
+    https://hub.docker.com/v2/repositories/endymuhardin/nama-image/
+    ```
