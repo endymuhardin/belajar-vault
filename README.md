@@ -71,7 +71,7 @@
         + id     = (known after apply)
         + name   = "aplikasi-belajar-readonly"
         + policy = <<-EOT
-                path "secret/data/aplikasi/belajar" {
+                path "secret/data/aplikasi-belajar" {
                 capabilities = ["read"]
                 }
             EOT
@@ -91,7 +91,7 @@
     vault_generic_secret.aplikasi-belajar: Creating...
     vault_auth_backend.approle: Creating...
     vault_policy.aplikasi-belajar-readonly: Creation complete after 0s [id=aplikasi-belajar-readonly]
-    vault_generic_secret.aplikasi-belajar: Creation complete after 0s [id=secret/aplikasi/belajar]
+    vault_generic_secret.aplikasi-belajar: Creation complete after 0s [id=secret/aplikasi-belajar]
     vault_auth_backend.approle: Creation complete after 0s [id=approle]
     vault_approle_auth_backend_role.belajar: Creating...
     vault_approle_auth_backend_role.belajar: Creation complete after 0s [id=auth/approle/role/belajar]
@@ -120,7 +120,7 @@
     Outputnya seharusnya seperti ini
 
     ```
-    path "secret/data/aplikasi/belajar" {
+    path "secret/data/aplikasi-belajar" {
         capabilities = ["read"]
     }
     ```
@@ -169,14 +169,14 @@
 7. Cek apakah secret sudah terbentuk
 
     ```
-    vault kv get secret/aplikasi/belajar
+    vault kv get secret/aplikasi-belajar
     ```
 
     Outputnya seperti ini
 
     ```
     ======== Secret Path ========
-    secret/data/aplikasi/belajar
+    secret/data/aplikasi-belajar
 
     ======= Metadata =======
     Key                Value
@@ -283,7 +283,7 @@
 5. Gunakan `token` untuk membaca isi secret
 
     ```
-    VAULT_TOKEN="hvs.CAESILZwZ9W8KaCUKDQVEvdpskdEgGoit2bUn13xOXJ-tGj3Gh4KHGh2cy42OHdnNkh5TThlZjZFVmp0RzVyeFo1elg" vault kv get secret/aplikasi/belajar
+    VAULT_TOKEN="hvs.CAESILZwZ9W8KaCUKDQVEvdpskdEgGoit2bUn13xOXJ-tGj3Gh4KHGh2cy42OHdnNkh5TThlZjZFVmp0RzVyeFo1elg" vault kv get secret/aplikasi-belajar
     ```
 
     Outputnya seperti ini
@@ -504,7 +504,7 @@ Ada dua metode yang bisa dipilih:
 4. Set `wrapping_token` di environment variable pada saat menjalankan aplikasi
 
     ```
-    SPRING_CLOUD_VAULT_TOKEN='hvs.CAESIBapJpXJKSeYcU6vl29b8wMU9_8nkWrbTla9MB8ZOy_CGh4KHGh2cy5hWENGN1hPNXN1eDVDMUF5ZVdUME1wWDk' mvn clean spring-boot:run
+    SPRING_CLOUD_VAULT_APPROLE_ROLEID='bcad7c7a-65c7-efc1-84d1-c69d257cc219' SPRING_CLOUD_VAULT_TOKEN='hvs.CAESIBapJpXJKSeYcU6vl29b8wMU9_8nkWrbTla9MB8ZOy_CGh4KHGh2cy5hWENGN1hPNXN1eDVDMUF5ZVdUME1wWDk' mvn clean spring-boot:run
     ```
 
 ## Menjalankan Vault di Kubernetes ##
