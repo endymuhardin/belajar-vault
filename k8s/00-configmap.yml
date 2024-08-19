@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: konfigurasi-app-belajar
+data:
+  database_name: "belajar-vault"
+  database_jdbc_url: "jdbc:postgresql://service-db-belajar/belajar-vault"

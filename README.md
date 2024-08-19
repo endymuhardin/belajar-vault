@@ -589,3 +589,45 @@ Ada dua metode yang bisa dipilih:
     -H "Authorization: Bearer $DOCKERHUB_TOKEN" \
     https://hub.docker.com/v2/repositories/endymuhardin/nama-image/
     ```
+
+## Mendeploy Aplikasi Spring Boot ke Kubernetes ##
+
+1. Pastikan kubernetes cluster sudah ready
+
+    ```
+    kubectl cluster-info
+    kubectl get nodes
+    ```
+
+2. Deploy configmap dan secret
+
+    ```
+    kubectl apply -f 00-configmap.yml
+    kubectl apply -f 00-secret.yml
+    ```
+
+    Cek hasilnya
+
+    ```
+    kubectl get configmap, secret
+    kubectl describe configmap/konfigurasi-app-belajar
+    kubectl describe secret/secret-app-belajar
+    ```
+
+3. Deploy database
+
+    ```
+    kubectl apply -f 01-database.yml
+    ```
+
+4. Deploy aplikasi
+
+    ```
+    kubectl apply -f 02-aplikasi.yml
+    ```
+
+5. Cek hasilnya
+
+    ```
+    kubectl get pvc,pod,deployment,svc
+    ```

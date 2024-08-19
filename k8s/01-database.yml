@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-db-belajar
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-db-belajar
+  labels:
+    app: belajar
+    tier: db
+    stage: dev
+    ver: v2024070905
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: belajar
+      tier: db
+      stage: dev
+      ver: v2024070905
+  template:
+    metadata:
+      labels:
+        app: belajar
+        tier: db
+        stage: dev
+        ver: v2024070905
+    spec:
+      containers:
+      - name: container-db-belajar
+        image: postgres:16-alpine
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: konfigurasi-app-belajar
+              key: database_name
+        - name: POSTGRES_USER
+          valueFrom: 
+            secretKeyRef:
+              name: secret-app-belajar
+              key: database_username
+        - name: POSTGRES_PASSWORD
+          valueFrom: 
+            secretKeyRef:
+              name: secret-app-belajar
+              key: database_password
+        - name: PGDATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: konfigurasi-app-belajar
+              key: database_name
+        - name: PGUSER
+          valueFrom: 
+            secretKeyRef:
+              name: secret-app-belajar
+              key: database_username
+        - name: PGPASSWORD
+          valueFrom: 
+            secretKeyRef:
+              name: secret-app-belajar
+              key: database_password
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: vol-db-belajar
+          mountPath: "/var/lib/postgresql/data"
+        livenessProbe:
+          exec:
+            command: ["pg_isready", "-h", "127.0.0.1", "-p", "5432"]
+        readinessProbe:
+          exec:
+            command: ["psql", "-h", "127.0.0.1", "-p", "5432", "-c", "SELECT 1"]
+      volumes:
+      - name: vol-db-belajar
+        persistentVolumeClaim:
+          claimName: pvc-db-belajar
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-db-belajar
+  labels:
+    app: belajar
+    tier: db
+    stage: dev
+    ver: v2024070905
+spec:
+  ports:
+  - port: 5432
+  selector:
+    app: belajar
+    tier: db
+    stage: dev
+    ver: v2024070905
+  
