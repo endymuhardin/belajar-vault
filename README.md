@@ -449,7 +449,7 @@ Ada dua metode yang bisa dipilih:
 4. Set `secret-id` di environment variable pada saat menjalankan aplikasi
 
     ```
-    SPRING_CLOUD_VAULT_APPROLE_SECRETID='87af52b1-80ba-d36b-3620-d66f6d012278' mvn clean spring-boot:run
+    SPRING_PROFILES_ACTIVE=vault SPRING_CLOUD_VAULT_APPROLE_ROLEID='bcad7c7a-65c7-efc1-84d1-c69d257cc219' SPRING_CLOUD_VAULT_APPROLE_SECRETID='87af52b1-80ba-d36b-3620-d66f6d012278' mvn clean spring-boot:run
     ```
 
 #### Metode Wrapped Secret Id ####
@@ -504,7 +504,7 @@ Ada dua metode yang bisa dipilih:
 4. Set `wrapping_token` di environment variable pada saat menjalankan aplikasi
 
     ```
-    SPRING_CLOUD_VAULT_APPROLE_ROLEID='bcad7c7a-65c7-efc1-84d1-c69d257cc219' SPRING_CLOUD_VAULT_TOKEN='hvs.CAESIBapJpXJKSeYcU6vl29b8wMU9_8nkWrbTla9MB8ZOy_CGh4KHGh2cy5hWENGN1hPNXN1eDVDMUF5ZVdUME1wWDk' mvn clean spring-boot:run
+    SPRING_PROFILES_ACTIVE=vault SPRING_CLOUD_VAULT_APPROLE_ROLEID='bcad7c7a-65c7-efc1-84d1-c69d257cc219' SPRING_CLOUD_VAULT_TOKEN='hvs.CAESIBapJpXJKSeYcU6vl29b8wMU9_8nkWrbTla9MB8ZOy_CGh4KHGh2cy5hWENGN1hPNXN1eDVDMUF5ZVdUME1wWDk' mvn clean spring-boot:run
     ```
 
 ## Menjalankan Vault di Kubernetes ##
