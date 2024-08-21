@@ -590,6 +590,20 @@ Ada dua metode yang bisa dipilih:
     https://hub.docker.com/v2/repositories/endymuhardin/nama-image/
     ```
 
+5. Supaya tidak perlu pull dari registry, apabila kita menggunakan `Podman Desktop` dan `Kind`, kita bisa melakukan Push dari Podman Desktop.
+
+    [![Podman Desktop](docs/img/push-podman-image-to-kind.png)](docs/img/push-podman-image-to-kind.png)
+
+    Deklarasi containernya sebagai berikut
+
+    ```
+    spec:
+      containers:
+      - name: container-backend-belajar
+        image: localhost/endymuhardin/belajar-vault:latest
+        imagePullPolicy: Never
+    ```
+
 ## Mendeploy Aplikasi Spring Boot ke Kubernetes ##
 
 1. Pastikan kubernetes cluster sudah ready
@@ -631,3 +645,9 @@ Ada dua metode yang bisa dipilih:
     ```
     kubectl get pvc,pod,deployment,svc
     ```
+
+
+# Referensi #
+
+* https://gitlab.com/endymuhardin/training-kubernetes-2024-01
+* https://iximiuz.com/en/posts/kubernetes-kind-load-docker-image/

@@ -25,10 +25,9 @@ spec:
     spec:
       containers:
       - name: container-backend-belajar
-        image: endymuhardin/belajar-vault
+        image: localhost/endymuhardin/belajar-vault:latest
+        imagePullPolicy: Never
         env:
-        - name: SPRING_CLOUD_VAULT_ENABLED
-          value: 'false'
         - name: SPRING_DATASOURCE_URL
           valueFrom:
             configMapKeyRef:
