@@ -596,11 +596,27 @@ Ada dua metode yang bisa dipilih:
 
     Deklarasi containernya sebagai berikut
 
-    ```
+    ```yml
     spec:
       containers:
       - name: container-backend-belajar
         image: localhost/endymuhardin/belajar-vault:latest
+        imagePullPolicy: Never
+    ```
+
+6. Apabila menggunakan Rancher Desktop, supaya image bisa dijalankan dari local (tanpa push dan pull), kita harus menggunakan namespace `k8s.io` pada saat build. Perintahnya sebagai berikut:
+
+    ```
+    nerdctl build --namespace=k8s.io -t endymuhardin/belajar-vault .
+    ```
+
+    Deklarasi container tidak perlu diawali dengan `localhost` seperti Podman, yaitu sebagai berikut:
+
+    ```yml
+    spec:
+      containers:
+      - name: container-backend-belajar
+        image: endymuhardin/belajar-vault:latest
         imagePullPolicy: Never
     ```
 
