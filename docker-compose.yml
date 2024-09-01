@@ -5,7 +5,7 @@ services:
     environment:
       - POSTGRES_DB=belajar-vault
       - POSTGRES_USER=belajar
-      - POSTGRES_PASSWORD=belajar-vault-123
+      - POSTGRES_PASSWORD=belajar-vault-abcd
     ports:
       - 5432:5432
     volumes:
