@@ -1,0 +1,23 @@
+spec:
+  selector:
+    matchLabels:
+      app: belajar
+      tier: backend
+  template:
+    spec:
+      env:
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: konfigurasi-app-belajar
+              key: database_jdbc_url
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: secret-app-belajar
+              key: database_username
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret-app-belajar
+              key: database_password
