@@ -113,12 +113,15 @@
 								</property>
 							</all>
 						</labels>
-						<services>
-							<service>
-								<name>service-backend-belajar</name>
-							</service>
-						</services>
 					</resources>
+					<enricher>
+						<config>
+						  <jkube-service>
+							<name>service-backend-belajar</name>
+							<port>8080</port>
+						  </jkube-service>
+						</config>
+					  </enricher>
 				</configuration>
 			</plugin>
 		</plugins>
