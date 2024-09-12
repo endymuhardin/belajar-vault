@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: konfigurasi-app-belajar
 data:
-  database_name: "belajar-vault"
-  database_jdbc_url: "jdbc:postgresql://service-db-belajar/belajar-vault"
+  database_name: "belajar-vault-k8s"
+  database_jdbc_url: "jdbc:postgresql://service-db-belajar/belajar-vault-k8s"
