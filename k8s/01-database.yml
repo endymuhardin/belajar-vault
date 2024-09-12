@@ -34,6 +34,7 @@ spec:
         stage: dev
         ver: v2024070905
     spec:
+      serviceAccountName: sa-belajar
       containers:
       - name: container-db-belajar
         image: postgres:16-alpine
@@ -46,12 +47,12 @@ spec:
         - name: POSTGRES_USER
           valueFrom: 
             secretKeyRef:
-              name: secret-app-belajar
+              name: secret-belajar-vault
               key: database_username
         - name: POSTGRES_PASSWORD
           valueFrom: 
             secretKeyRef:
-              name: secret-app-belajar
+              name: secret-belajar-vault
               key: database_password
         - name: PGDATABASE
           valueFrom:
@@ -61,18 +62,21 @@ spec:
         - name: PGUSER
           valueFrom: 
             secretKeyRef:
-              name: secret-app-belajar
+              name: secret-belajar-vault
               key: database_username
         - name: PGPASSWORD
           valueFrom: 
             secretKeyRef:
-              name: secret-app-belajar
+              name: secret-belajar-vault
               key: database_password
         ports:
         - containerPort: 5432
         volumeMounts:
         - name: vol-db-belajar
           mountPath: "/var/lib/postgresql/data"
+        - name: secret-dari-vault
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
         livenessProbe:
           exec:
             command: ["pg_isready", "-h", "127.0.0.1", "-p", "5432"]
@@ -83,6 +87,12 @@ spec:
       - name: vol-db-belajar
         persistentVolumeClaim:
           claimName: pvc-db-belajar
+      - name: secret-dari-vault
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "vault-database"
 ---
 apiVersion: v1
 kind: Service

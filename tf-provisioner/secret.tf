@@ -4,7 +4,9 @@ resource "vault_generic_secret" "aplikasi-belajar" {
     {
         "spring.datasource.url" : "jdbc:postgresql://localhost/belajar-vault-k8s",
         "spring.datasource.username" : "belajar-k8s",
-        "spring.datasource.password" : "belajar-vault-123-k8s"
+        "spring.datasource.password" : "belajar-vault-123-k8s",
+        "database_username" : "belajar-k8s",
+        "database_password" : "belajar-vault-123-k8s"
     }
   EOF
 }

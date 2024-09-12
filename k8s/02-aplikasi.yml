@@ -23,6 +23,7 @@ spec:
         stage: dev
         ver: v2024070905
     spec:
+      serviceAccountName: sa-belajar
       containers:
       - name: container-backend-belajar
         image: endymuhardin/belajar-vault:latest
@@ -36,15 +37,19 @@ spec:
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             secretKeyRef:
-              name: secret-app-belajar
+              name: secret-belajar-vault
               key: database_username
         - name: SPRING_DATASOURCE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: secret-app-belajar
+              name: secret-belajar-vault
               key: database_password
         ports:
         - containerPort: 8080
+        volumeMounts:
+        - name: secret-dari-vault
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
         startupProbe:
           httpGet:
             path: /actuator/health/liveness
@@ -64,6 +69,13 @@ spec:
             port: 8080
           initialDelaySeconds: 60
           periodSeconds: 10
+      volumes:
+      - name: secret-dari-vault
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "vault-database"
 ---
 apiVersion: v1
 kind: Service
